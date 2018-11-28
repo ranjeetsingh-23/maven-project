@@ -13,29 +13,8 @@ pipeline {
         stage('Build'){
             steps {
                 sh 'mvn clean package'
+                sh "docker build . -t tomcatwebapp:${env.BUILD_ID}"
             }
-            post {
-                success {
-                    echo 'Now Archiving...'
-                    archiveArtifacts artifacts: '**/target/*.war'
-                }
-            }
+          }
         }
 
-        stage ('Deployments'){
-            parallel{
-                stage ('Deploy to Staging'){
-                    steps {
-                        sh " sudo cp **/target/*.war /opt/apache-tomcat-8.5.35_dev/webapps"
-                    }
-                }
-
-                stage ("Deploy to Production"){
-                    steps {
-                        sh "sudo cp  **/target/*.war /opt/apache-tomcat-8.5.35_prod/webapps"
-                    }
-                }
-            }
-        }
-    }
-}
