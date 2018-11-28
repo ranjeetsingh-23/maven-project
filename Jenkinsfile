@@ -26,13 +26,13 @@ pipeline {
             parallel{
                 stage ('Deploy to Staging'){
                     steps {
-                        sh "cp **/target/*.war /opt/apache-tomcat-8.5.35_dev/webapps"
+                        sh " sudo cp **/target/*.war /opt/apache-tomcat-8.5.35_dev/webapps"
                     }
                 }
 
                 stage ("Deploy to Production"){
                     steps {
-                        sh "cp  **/target/*.war /opt/apache-tomcat-8.5.35_prod/webapps"
+                        sh "sudo cp  **/target/*.war /opt/apache-tomcat-8.5.35_prod/webapps"
                     }
                 }
             }
